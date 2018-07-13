@@ -23,7 +23,7 @@ Head over to  http://localhost:8000 and if you can see "the meaning of life" the
 ## Installation on k8s :-
 
 ## Note:
-Image being used for drkiq and sidekiq deployments are located on theabbas/drkiq:v8.
+Image being used for drkiq and sidekiq deployments are located at theabbas/drkiq:v8.
 This image has been built using same files and can be replaced with the image being pushed to your own repo
 
 ```
