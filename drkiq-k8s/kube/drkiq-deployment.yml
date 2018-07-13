@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: drkiq-deployment
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: drkiq
+    spec:
+      initContainers:
+      - name: drkiq-db-migrate
+        image: theabbas/drkiq:v8
+        command: ['sh','-c','rake db:reset']
+        env:
+        - name: SECRET_TOKEN
+          value: 'dontwatch?v=7nqcL0mjMjw'
+        - name: WORKER_PROCESSES
+          value: '1'
+        - name: LISTEN_ON
+          value: '0.0.0.0:8000'
+        - name: DATABASE_URL
+          value: 'postgresql://drkiq:dontwatch%3Fv%3DkffacxfA7G4@postgres:5432/drkiq?encoding=utf8&pool=5&timeout=5000'
+        - name: CACHE_URL
+          value: 'redis://redis:6379/0'
+        - name: JOB_WORKER_URL
+          value: 'redis://redis:6379/0'
+
+      containers:
+      - name: drkiq
+        image: theabbas/drkiq:v8
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - name: drkiq
+          containerPort: 8000
+        env:
+        - name: SECRET_TOKEN
+          value: 'dontwatch?v=7nqcL0mjMjw'
+        - name: WORKER_PROCESSES
+          value: '1'
+        - name: LISTEN_ON
+          value: '0.0.0.0:8000'
+        - name: DATABASE_URL
+          value: 'postgresql://drkiq:dontwatch%3Fv%3DkffacxfA7G4@postgres:5432/drkiq?encoding=utf8&pool=5&timeout=5000'
+        - name: CACHE_URL
+          value: 'redis://redis:6379/0'
+        - name: JOB_WORKER_URL
+          value: 'redis://redis:6379/0' 
+        volumeMounts:
+        - mountPath: /drkiq/public
+          name: drkiq-data
+      volumes:
+      - name: drkiq-data
+        emptyDir: {}
