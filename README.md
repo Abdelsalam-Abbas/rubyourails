@@ -6,7 +6,7 @@ The Meaning of Life is an app developed using Ruby on Rails, PostgreSQL, Redis a
 ## Requirements:-
 - docker 
 - docker-compose
-- minikube
+- minikube ( or a kubernetes cluster )
 - kubectl
 ------------------------------------------
 ## Installation on docker:-
