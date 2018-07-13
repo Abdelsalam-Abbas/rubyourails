@@ -14,11 +14,9 @@ spec:
       - name: postgres
         image: postgres:9.4.5
         imagePullPolicy: IfNotPresent
-        env:
-        - name: POSTGRES_USER
-          value: 'drkiq'
-        - name: POSTGRES_PASSWORD
-          value: 'dontwatch?v=kffacxfA7G4'
+        envFrom:
+        - configMapRef:
+            name: postgres-configmap
         ports:
         - name: postgres
           containerPort: 5432

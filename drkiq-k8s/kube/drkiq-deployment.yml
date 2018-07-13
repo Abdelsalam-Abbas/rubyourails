@@ -14,20 +14,9 @@ spec:
       - name: drkiq-db-migrate
         image: theabbas/drkiq:v8
         command: ['sh','-c','rake db:reset']
-        env:
-        - name: SECRET_TOKEN
-          value: 'dontwatch?v=7nqcL0mjMjw'
-        - name: WORKER_PROCESSES
-          value: '1'
-        - name: LISTEN_ON
-          value: '0.0.0.0:8000'
-        - name: DATABASE_URL
-          value: 'postgresql://drkiq:dontwatch%3Fv%3DkffacxfA7G4@postgres:5432/drkiq?encoding=utf8&pool=5&timeout=5000'
-        - name: CACHE_URL
-          value: 'redis://redis:6379/0'
-        - name: JOB_WORKER_URL
-          value: 'redis://redis:6379/0'
-
+        envFrom:
+        - configMapRef:
+            name: drkiq-configmap
       containers:
       - name: drkiq
         image: theabbas/drkiq:v8
@@ -35,19 +24,9 @@ spec:
         ports:
         - name: drkiq
           containerPort: 8000
-        env:
-        - name: SECRET_TOKEN
-          value: 'dontwatch?v=7nqcL0mjMjw'
-        - name: WORKER_PROCESSES
-          value: '1'
-        - name: LISTEN_ON
-          value: '0.0.0.0:8000'
-        - name: DATABASE_URL
-          value: 'postgresql://drkiq:dontwatch%3Fv%3DkffacxfA7G4@postgres:5432/drkiq?encoding=utf8&pool=5&timeout=5000'
-        - name: CACHE_URL
-          value: 'redis://redis:6379/0'
-        - name: JOB_WORKER_URL
-          value: 'redis://redis:6379/0' 
+        envFrom:
+        - configMapRef:
+            name: drkiq-configmap
         volumeMounts:
         - mountPath: /drkiq/public
           name: drkiq-data
